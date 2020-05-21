@@ -17,7 +17,7 @@ export default class CreateAppointments1589990855331
           {
             name: 'provider',
             type: 'varchar',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'date',
