@@ -1,4 +1,4 @@
-# template-node-api-typescript
+# gobarber-api-typescript
 API gobarber in Node JS
 
 ## Installation
