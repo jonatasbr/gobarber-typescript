@@ -4,20 +4,28 @@ import AuthenticateUserService from './AuthenticateUserService';
 import CreateUserService from './CreateUserService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
-describe('AuthenticateUserService', () => {
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUserService: CreateUserService;
+let authenticateUser: AuthenticateUserService;
+
+  describe('AuthenticateUserService', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
+    createUserService = new CreateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+
+    authenticateUser = new AuthenticateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+  });
+
   it('should be able to authenticate', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-    const authenticateUser = new AuthenticateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     const user = await createUserService.execute({
       name: 'John Doe',
       email: 'john.doe@example.com',
@@ -35,15 +43,15 @@ describe('AuthenticateUserService', () => {
 
   describe('AuthenticateUserService', () => {
     it('should not be able to authenticate with non existing user', async () => {
-      const fakeUsersRepository = new FakeUsersRepository();
-      const fakeHashProvider = new FakeHashProvider();
+      fakeUsersRepository = new FakeUsersRepository();
+      fakeHashProvider = new FakeHashProvider();
 
-      const authenticateUser = new AuthenticateUserService(
+      authenticateUser = new AuthenticateUserService(
         fakeUsersRepository,
         fakeHashProvider,
       );
 
-      expect(
+      await expect(
         authenticateUser.execute({
           email: 'john.doe@example.com',
           password: '123456',
@@ -53,14 +61,15 @@ describe('AuthenticateUserService', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
 
-    const createUserService = new CreateUserService(
+    createUserService = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     );
-    const authenticateUser = new AuthenticateUserService(
+
+    authenticateUser = new AuthenticateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     );
