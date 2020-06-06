@@ -1,6 +1,6 @@
 export default {
   jwt: {
-    secret: 'app-gobarber-key-secret',
-    expiresIn: '7d',
+    secret: process.env.APP_SECRET,
+    expiresIn: process.env.APP_EXPIRES_IN,
   },
 };

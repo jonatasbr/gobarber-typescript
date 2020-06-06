@@ -37,7 +37,9 @@ lerna-debug.log*
 .env
 .env.production
 
-
 # Uploads Files
 uploads/*
 !uploads/.gitkeep
+
+# Database
+ormconfig.json
